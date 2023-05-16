@@ -1,0 +1,9 @@
+{
+  "name": "@functions/product",
+  "version": "1.0.0",
+  "main": "medicoHandler.ts",
+  "dependencies": {
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.1.1"
+  }
+}
