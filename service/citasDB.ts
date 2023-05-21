@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 const Cita = require('../models/citas');
-
+require('../models/medico');
+require('../models/signos');
 
 const citaDB = (mongoUri:string)=>{
   const connectionHandler = mongoose.connect(mongoUri,{ });
@@ -29,14 +30,15 @@ const citaDB = (mongoUri:string)=>{
           fechaCita:{'$gte':`${fechaFiltro}T00:00:00.000Z`,'$lt':`${fechaFiltro}T23:59:59.999Z`}
         })
       .sort({horaCita:1})
-      //.populate('medico')
+      .populate('medico')
       .populate('paciente')
-      //.populate('signos')
+      .populate('signos')
       .then((allCitas:any)=>{
         return {citas:allCitas};
       })
       .catch((err:any)=>{
-        return err;
+        console.log('Error en citas',err);
+        return {error:err};
       });
     },
     getCitasByFechaAndMedico:(fechaFiltro:string, idMedico:string)=>{
@@ -58,8 +60,7 @@ const citaDB = (mongoUri:string)=>{
       
     },
     updateCita:(idCita:string, cita:any)=>{
-      const body = JSON.parse(cita);
-      return Cita.findOneAndUpdate({_id:idCita},body,{new:true})
+      return Cita.findOneAndUpdate({_id:idCita},cita,{new:true})
       .then((citaUpdate:any)=>{
         return {cita:citaUpdate};
       })

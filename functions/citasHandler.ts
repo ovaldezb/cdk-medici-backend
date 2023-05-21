@@ -7,7 +7,7 @@ const headers ={
   'Access-Control-Allow-Credentials' : true,
   'Content-Type': 'application/json'
 };
-const Paciente = require('../models/paciente');
+require('../models/paciente');
 
 export const handler = async function(event:any) {
   const method = event.requestContext.httpMethod;
@@ -21,7 +21,7 @@ export const handler = async function(event:any) {
     case 'POST':
       return addCita(event);
     case 'PUT':
-      return updateCita(event.pathParameters.parametro,event.body);
+      return updateCita(event);
     case 'DELETE':
       return deleteCita(event.pathParameters.parametro);
     default:
@@ -77,10 +77,10 @@ async function getCitasByFechaAndMedico(fechaFiltro:string, idMedico:string){
   }
 }
 
-async function updateCita(idCita:string, cita:any){
-  //const body = JSON.parse(event.body);
-  //const idCita = event.pathParameters.idCita;
-  const updateCita = await db.updateCita(idCita,cita);
+async function updateCita(event:any){
+  const body = JSON.parse(event.body);
+  const idCita = event.pathParameters.parametro;
+  const updateCita = await db.updateCita(idCita,body);
   if(updateCita===null){
     let bodyMessage = {
       message : 'No existen registros para actualizar'

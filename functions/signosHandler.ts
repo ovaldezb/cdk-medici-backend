@@ -9,6 +9,7 @@ const headers ={
 
 export const handler = async function (event:any) {
   const method = event.requestContext.httpMethod;
+  console.log(event);
   switch(method){
     case 'GET' :
       if(event.pathParameters != null ){
@@ -19,7 +20,7 @@ export const handler = async function (event:any) {
     case 'POST':
       return addSignos(event);
     case 'PUT':
-      
+      return updateSignos(event);
     case 'DELETE':
       
     default:
@@ -32,7 +33,7 @@ async function addSignos(event:any){
   const signos = await db.saveSignos(body);
   if(signos===null){
     var errMessage = {
-      message:'No existen medico para este id'
+      message:'Error al asignar signos'
     };
     return{
       statusCode: 404,
@@ -43,6 +44,30 @@ async function addSignos(event:any){
   return{
     statusCode: 200,
     body: JSON.stringify(signos),
+    headers:headers,
+    isBase64Encoded:false
+  }
+}
+
+async function updateSignos(event:any) {
+  const idSignos = event.pathParameters.parametro;
+  const body = JSON.parse(event.body);
+  console.log('idSignos',idSignos);
+  console.log('Body',body);
+  const signosUpdated = await db.updateSignos(idSignos,body);
+  if(signosUpdated.error != null){
+    var errMessage = {
+      message:'No se pudieron actualizar los signos para este id '+idSignos
+    };
+    return{
+      statusCode: 404,
+      body: JSON.stringify(errMessage),
+      headers:headers
+    }
+  }
+  return{
+    statusCode: 200,
+    body: JSON.stringify(signosUpdated),
     headers:headers,
     isBase64Encoded:false
   }

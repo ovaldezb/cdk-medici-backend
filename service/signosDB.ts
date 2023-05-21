@@ -22,15 +22,15 @@ const signosDB = (mongoUri:string)=>{
         return {error:err};
       });
     },
-    updateSignos:(req:any)=>{
-      let idSignos = req.pathParameters.idSignos;
-      return Signos.findOneAndUpdate({_id:idSignos},JSON.parse(req.body),{new:true})
+    updateSignos:(idSignos:string,signos:any)=>{
+      return Signos.findOneAndUpdate({_id:idSignos},signos,{new:true})
       .then((signosUpdated:any) =>{
+        console.log('Updated',signosUpdated);
         return {signos:signosUpdated};
       })
       .catch((err:any)=>{
-        console.log(err);
-        return err;
+        console.log('Error en update signos:',err);
+        return {error:err};
       })
     }
   };
