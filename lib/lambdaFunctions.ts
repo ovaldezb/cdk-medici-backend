@@ -10,6 +10,7 @@ export class SwLambdaFunctions extends Construct{
   public readonly pacientesLambda:NodejsFunction;
   public readonly signosLambda:NodejsFunction;
   public readonly cognitoLambda:NodejsFunction;
+  public readonly perfilLambda:NodejsFunction;
 
   constructor(scope: Construct, id: string){
     super(scope, id);
@@ -31,6 +32,7 @@ export class SwLambdaFunctions extends Construct{
     this.pacientesLambda = this.createPacientesLambda(nodeJSProps);
     this.signosLambda = this.createSignosLambda(nodeJSProps);
     this.cognitoLambda = this.createCognitoLambda(nodeJSProps);
+    this.perfilLambda = this.createPerfilLambda(nodeJSProps);
   }
 
   private createCitasLambda(nodeJsProps:NodejsFunctionProps):NodejsFunction{
@@ -78,4 +80,12 @@ export class SwLambdaFunctions extends Construct{
     return cognitoFunction;
   }
   
+  private createPerfilLambda(nodeJsProps:NodejsFunctionProps):NodejsFunction{
+    const perfilFunction = new NodejsFunction(this,'PerfilFunction',{
+      functionName:'PerfilFunction',
+      entry:join(__dirname,'/../functions/perfilHandler.ts'),
+      ...nodeJsProps
+    });
+    return perfilFunction;
+  }
 }

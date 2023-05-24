@@ -15,7 +15,8 @@ export class CdkMediciBackendStack extends cdk.Stack {
       citasLambda:    lambdaFunctions.citasLambda,
       medicosLambda:  lambdaFunctions.medicosLambda,
       pacientesLambda:lambdaFunctions.pacientesLambda,
-      signosLambda:   lambdaFunctions.signosLambda
+      signosLambda:   lambdaFunctions.signosLambda,
+      perfilLambda: lambdaFunctions.perfilLambda
     });
 
     const cognitoPool = new SwCognito(this,'ClinicaCognitoPool',lambdaFunctions.cognitoLambda);

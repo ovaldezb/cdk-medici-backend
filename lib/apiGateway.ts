@@ -7,7 +7,8 @@ interface SwApiGatewaysProps{
   citasLambda: IFunction,
   medicosLambda: IFunction,
   pacientesLambda:IFunction,
-  signosLambda: IFunction
+  signosLambda: IFunction,
+  perfilLambda: IFunction
 }
 
 export class SwApiGateway extends Construct{
@@ -18,6 +19,7 @@ export class SwApiGateway extends Construct{
     this.createApigMedicos(props.medicosLambda);
     this.createApigPaciente(props.pacientesLambda);
     this.createApigSignos(props.signosLambda);
+    this.createApigPerfil(props.perfilLambda);
   }
 
   private createApigCitas(citasLambda:IFunction){
@@ -145,5 +147,33 @@ export class SwApiGateway extends Construct{
     signosById.addMethod('GET');
     //const signosByPaciente = signos.addResource('paciente').addResource('{idPaciente}')
     //signosByPaciente.addMethod('GET')
+  }
+
+  private createApigPerfil(perfilLambda:IFunction){
+    const apiGwPerfil = new LambdaRestApi(this, 'PerfilApiGw', {
+      restApiName: 'Perfil Service',
+      handler: perfilLambda,
+      proxy: false,
+      deployOptions: {
+        stageName: 'dev'
+      },
+      defaultCorsPreflightOptions: {
+        allowHeaders: [
+          'Content-Type',
+          'X-Amz-Date',
+          'Authorization',
+          'X-Api-Key',
+        ],
+        allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        allowCredentials: true,
+        allowOrigins: ['*'],
+      }
+    });
+    const perfil = apiGwPerfil.root.addResource('perfil');
+    perfil.addMethod('GET');
+    perfil.addMethod('POST');
+    const perfilById = perfil.addResource('{idPerfil}');
+    perfilById.addMethod('PUT');
+    perfilById.addMethod('DELETE');
   }
 }

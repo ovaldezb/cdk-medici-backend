@@ -28,8 +28,9 @@ const medicoDB = (mongoUri:string)=>{
       .then((medicos:any) =>{
         return {medicos:medicos};
       })
-      .catch((err:any) =>{
-        return err;
+      .catch((error:any) =>{
+        console.log(error)
+        return {error:error};
       })
     },
     updateMedicoDB:(idMedico:string, medico:any)=>{
@@ -38,8 +39,9 @@ const medicoDB = (mongoUri:string)=>{
       .then((updatedMedico:any)=>{
         return {medico:updatedMedico};
       })
-      .catch((err:any)=>{
-        return err;
+      .catch((error:any)=>{
+        console.log(error)
+        return {error:error};
       })
     },
     delete:(idMedico:string)=>{
@@ -47,8 +49,9 @@ const medicoDB = (mongoUri:string)=>{
       .then((deletedMedico:any)=>{
         return deletedMedico;
       })
-      .catch((err:any)=>{
-        return err;
+      .catch((error:any)=>{
+        console.log(error)
+        return {error:error};
       })
     }
   }

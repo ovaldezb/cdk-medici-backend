@@ -28,3 +28,5 @@ const cognitoDB = (mongoUri:any)=>{
   }
 
 }
+
+module.exports = cognitoDB;

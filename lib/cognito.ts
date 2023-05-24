@@ -55,7 +55,7 @@ export class SwCognito extends Construct{
         requireSymbols: false,
       },
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
-      removalPolicy: RemovalPolicy.DESTROY,
+      removalPolicy: RemovalPolicy.RETAIN,
       /*lambdaTriggers:{
         postConfirmation:cognitoLambda
       }*/
