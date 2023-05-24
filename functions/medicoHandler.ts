@@ -16,8 +16,8 @@ export const handler = async function(event:any) {
       }else{
         return getAllMedicos();
       }
-    case 'POST':
-      return saveMedico(event.body);
+    //case 'POST':
+      //return saveMedico(event.body);
     case 'PUT':
       return updateMedico(event.pathParameters.idMedico, event.body);
     case 'DELETE':
@@ -27,8 +27,7 @@ export const handler = async function(event:any) {
   }
 }
 
-async function saveMedico(medico:any) {
-  console.log('Save Medico',medico);
+/*async function saveMedico(medico:any) {
   const body = JSON.parse(medico);
   const savedMedico =  await db.save(body);
   
@@ -39,6 +38,7 @@ async function saveMedico(medico:any) {
     isBase64Encoded:false
   }
 }
+*/
 
 async function getMedicoById(idMedico:string){
   const medico = await db.getMedicoById(idMedico);

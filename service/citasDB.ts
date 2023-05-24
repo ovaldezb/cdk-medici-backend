@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Cita = require('../models/citas');
 require('../models/medico');
 require('../models/signos');
+require('../models/paciente');
 
 const citaDB = (mongoUri:string)=>{
   const connectionHandler = mongoose.connect(mongoUri,{ });
@@ -16,11 +17,13 @@ const citaDB = (mongoUri:string)=>{
         horaCita : params.horaCita,
         duracion : params.duracion,
         isSignosTomados : params.isSignosTomados
-      }).save()
+      })
+      .save()
       .then((citaSaved:any) =>{
         return {cita:citaSaved};
       })
       .catch((err:any)=>{
+        console.log(err);
         return err;
       })
     },
@@ -48,9 +51,9 @@ const citaDB = (mongoUri:string)=>{
           medico:{_id:idMedico}
         })
       .sort({horaCita:1})
-      //.populate('medico')
+      .populate('medico')
       .populate('paciente')
-      //.populate('signos')
+      .populate('signos')
       .then((allCitas:any)=>{
         return {citas:allCitas};
       })

@@ -1,9 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
-import { LambdaRestApi } from 'aws-cdk-lib/aws-apigateway';
-import { Runtime } from 'aws-cdk-lib/aws-lambda';
-import { NodejsFunction, NodejsFunctionProps } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
-import { join } from 'path';
 import { SwCognito } from './cognito';
 import { SwLambdaFunctions } from './lambdaFunctions';
 import { SwApiGateway } from './apiGateway';

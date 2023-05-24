@@ -25,14 +25,26 @@ export class SwCognito extends Construct{
           required: true,
           mutable: true,
         },
+        middleName: {
+          required: true,
+          mutable: true,
+        },
         familyName: {
           required: true,
           mutable: true,
         },
+        gender:{
+          required:true,
+          mutable: true
+        },
+        phoneNumber:{
+          required: true,
+          mutable: true
+        }
       },
       customAttributes: {
-        country: new cognito.StringAttribute({mutable: true}),
-        city: new cognito.StringAttribute({mutable: true}),
+        perfil: new cognito.StringAttribute({mutable: true}),
+        cedula: new cognito.StringAttribute({mutable: true}),
         isAdmin: new cognito.StringAttribute({mutable: true}),
       },
       passwordPolicy: {
