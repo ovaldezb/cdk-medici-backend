@@ -5,8 +5,7 @@ require('../models/signos');
 require('../models/paciente');
 
 const citaDB = (mongoUri:string)=>{
-  const connectionHandler = mongoose.connect(mongoUri,{ });
-
+  mongoose.connect(mongoUri,{ });
   return {
     save:(params:any)=>{
       return new Cita({

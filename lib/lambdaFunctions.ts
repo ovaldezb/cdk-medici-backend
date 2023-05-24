@@ -11,6 +11,7 @@ export class SwLambdaFunctions extends Construct{
   public readonly signosLambda:NodejsFunction;
   public readonly cognitoLambda:NodejsFunction;
   public readonly perfilLambda:NodejsFunction;
+  
 
   constructor(scope: Construct, id: string){
     super(scope, id);

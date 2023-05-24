@@ -8,7 +8,8 @@ interface SwApiGatewaysProps{
   medicosLambda: IFunction,
   pacientesLambda:IFunction,
   signosLambda: IFunction,
-  perfilLambda: IFunction
+  perfilLambda: IFunction,
+  usuarioLambda: IFunction
 }
 
 export class SwApiGateway extends Construct{
@@ -20,6 +21,7 @@ export class SwApiGateway extends Construct{
     this.createApigPaciente(props.pacientesLambda);
     this.createApigSignos(props.signosLambda);
     this.createApigPerfil(props.perfilLambda);
+    this.createApigUsuario(props.usuarioLambda);
   }
 
   private createApigCitas(citasLambda:IFunction){
@@ -175,5 +177,32 @@ export class SwApiGateway extends Construct{
     const perfilById = perfil.addResource('{idPerfil}');
     perfilById.addMethod('PUT');
     perfilById.addMethod('DELETE');
+  }
+
+  private createApigUsuario(usuarioLambda:IFunction){
+    const apiGwPerfil = new LambdaRestApi(this, 'UsuarioApiGw', {
+      restApiName: 'Usuario Service',
+      handler: usuarioLambda,
+      proxy: false,
+      deployOptions: {
+        stageName: 'dev'
+      },
+      defaultCorsPreflightOptions: {
+        allowHeaders: [
+          'Content-Type',
+          'X-Amz-Date',
+          'Authorization',
+          'X-Api-Key',
+        ],
+        allowMethods: ['OPTIONS', 'GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+        allowCredentials: true,
+        allowOrigins: ['*'],
+      }
+    });
+    const usuario = apiGwPerfil.root.addResource('usuario');
+    usuario.addMethod('GET');
+    const perfilById = usuario.addResource('{idUsuario}').addResource('{email}');
+    perfilById.addMethod('DELETE');
+
   }
 }
